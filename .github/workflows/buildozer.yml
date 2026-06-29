@@ -15,19 +15,14 @@ jobs:
         run: |
           docker run --rm -v ${{ github.workspace }}:/work -w /work \
             kivy/buildozer:latest \
-            bash -c "yes | buildozer android debug 2>&1" | tee build.log
+            bash -c "yes | buildozer android debug 2>&1"
+          echo "=== 检查 APK ==="
+          ls -la ${{ github.workspace }}/bin/ || echo "bin/ 不存在"
+          find ${{ github.workspace }} -name "*.apk" -type f 2>/dev/null || echo "未找到 APK"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: DeskCat-APK
-          path: |
-            ${{ github.workspace }}/bin/*.apk
-            ${{ github.workspace }}/bin/*.aab
-
-      - name: Upload build log (on failure)
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-log
-          path: ${{ github.workspace }}/build.log
+          path: ${{ github.workspace }}/bin/*.apk
+          if-no-files-found: warn
