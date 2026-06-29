@@ -57,20 +57,19 @@ android.gradle_dependencies = \
 
 # ============================================================
 # Python 依赖 (仅打包 Android 所需的库)
-# - openai: DeepSeek LLM API 调用
-# - pyjnius: BLE / TTS / 麦克风 (Android Java 桥接)
-# - plyer: Android 系统功能
-# 桌面专用库 (edge-tts, sounddevice, soundfile, numpy, bleak)
-# 不打包, 安装包更小
 # ============================================================
 requirements = \
     python3==3.10.0, \
-    kivy==2.3.1, \
-    openai>=1.0.0, \
-    Pillow>=9.0.0, \
-    requests>=2.28.0, \
-    pyjnius>=1.5.0, \
-    plyer>=2.1.0
+    kivy, \
+    Pillow, \
+    requests, \
+    certifi, \
+    urllib3, \
+    idna, \
+    charset_normalizer, \
+    pyjnius, \
+    plyer, \
+    openssl
 
 # ============================================================
 # 图标 & 启动画面
