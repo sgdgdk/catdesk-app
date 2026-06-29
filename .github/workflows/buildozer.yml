@@ -13,12 +13,17 @@ jobs:
 
       - name: Build APK (Docker)
         run: |
+          # 重试拉取 Docker 镜像
+          for i in 1 2 3; do
+            docker pull kivy/buildozer:latest && break
+            echo "拉取失败，重试第 $i 次..."
+            sleep 5
+          done
           docker run --rm -v ${{ github.workspace }}:/work -w /work \
             kivy/buildozer:latest \
             bash -c "yes | buildozer android debug 2>&1"
-          echo "=== 检查 APK ==="
-          ls -la ${{ github.workspace }}/bin/ || echo "bin/ 不存在"
-          find ${{ github.workspace }} -name "*.apk" -type f 2>/dev/null || echo "未找到 APK"
+          echo "=== 查找 APK ==="
+          find ${{ github.workspace }}/bin -name "*.apk" -type f 2>/dev/null | head -5
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
