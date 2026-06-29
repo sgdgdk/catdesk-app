@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Kivy / Buildozer
+.builder/
+.buildozer/
+bin/
+*.apk
+*.aab
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 虚拟环境
+.venv/
+venv/
+env/
+
+# 环境变量
+.env
+.env.local
+
+# 大文件
+*.mp4
+*.avi
+*.mov
+app/data/anim/**/*.jpg
+app/data/anim/**/*.jpeg
+app/data/anim/**/*.png
+
+# 日志
+*.log

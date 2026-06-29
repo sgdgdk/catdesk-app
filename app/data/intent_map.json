@@ -1,0 +1,66 @@
+{
+  "description": "LLM高层意图 → BLE底层指令 映射表（本地离线，不消耗token）",
+
+  "emotion_to_anim": {
+    "neutral":   "anim1",
+    "thinking":  "anim2",
+    "sleepy":    "anim3",
+    "confused":  "anim3",
+    "fear":      "anim4",
+    "angry":     "anim5",
+    "happy":     "anim6",
+    "surprised": "anim6",
+    "excited":   "anim6",
+    "sad":       "anim7",
+    "love":      "anim8",
+    "shy":       "anim8"
+  },
+
+  "actions": {
+    "move_forward":    {"ble": "MOVE,FWD,150",   "desc": "向前走"},
+    "move_backward":   {"ble": "MOVE,BACK,120",  "desc": "向后退"},
+    "turn_left":       {"ble": "MOVE,LEFT,140",  "desc": "向左转"},
+    "turn_right":      {"ble": "MOVE,RIGHT,140", "desc": "向右转"},
+    "stop":            {"ble": "MOVE,STOP",      "desc": "停止"},
+    "look_up":         {"ble": "PTZ:90,45",      "desc": "向上看"},
+    "look_down":       {"ble": "PTZ:90,135",     "desc": "向下看"},
+    "look_left":       {"ble": "PTZ:45,90",      "desc": "向左看"},
+    "look_right":      {"ble": "PTZ:135,90",     "desc": "向右看"},
+    "center_ptz":      {"ble": "PTZ:CENTER",     "desc": "云台回中"},
+    "none":            {"ble": "",               "desc": "无动作"}
+  },
+
+  "action_aliases": {
+    "move_forward":  ["向前走","往前走","往前","前进","向前","前走","往前走一走","走一下","走两步","起步","出发","go forward","forward","fwd"],
+    "move_backward": ["向后走","往后走","向后","往后","后退","倒退","倒车","退后","向后倒退","go back","backward","back"],
+    "turn_left":     ["向左转","往左转","向左","往左","左转","左拐","左边","向左拐","左弯","左转弯","turn left","left"],
+    "turn_right":    ["向右转","往右转","向右","往右","右转","右拐","右边","向右拐","右弯","右转弯","turn right","right"],
+    "stop":          ["停止","停下","别动","站住","停","停下来","不要动","停一下","刹住","stop","halt"],
+    "look_up":       ["向上看","往上看","抬头","抬起头","向上","上面","看看上面","看上面","抬头看","仰望","look up","up"],
+    "look_down":     ["向下看","往下看","低头","低下头","向下","下面","看看下面","看下面","低头看","俯瞰","look down","down"],
+    "look_left":     ["向左看","往左看","看左边","左边看看","看看左边","向左望","左看","look left"],
+    "look_right":    ["向右看","往右看","看右边","右边看看","看看右边","向右望","右看","look right"],
+    "center_ptz":    ["回中","回正","中位","居中","恢复","复位","看中间","看前方","看前面","center","reset"]
+  },
+
+  "impossible_keywords": ["飞","飞起来","飞翔","飞上天","起飞","发射","开火","开枪","变身","变形","喷火","隐形","隐身","瞬移","穿越","变大","缩小"],
+
+  "impossible_replies": ["你是在为难我吗喵~","臣妾办不到喵~","别开玩笑了！这个真不行~","这个不可以喵~人家做不到呢","呜呜，这个太难了喵...","小喵还没学会这个技能呢！","你饶了我吧喵~这个真的不行"],
+
+  "confirmation_replies": ["没问题喵~","好的喵！","好的！交给我吧！","小意思~看我的！","嘿嘿嘿，看我的吧！","别小看我喵！","好的主人！","收到！马上行动喵~","明白啦！立即执行！","好嘞！看小喵的！"],
+
+  "servo_emotion_to_angle": {
+    "happy":     {"yaw": 90,  "pitch": 85},
+    "sad":       {"yaw": 90,  "pitch": 105},
+    "angry":     {"yaw": 90,  "pitch": 82},
+    "surprised": {"yaw": 90,  "pitch": 75},
+    "thinking":  {"yaw": 80,  "pitch": 92},
+    "sleepy":    {"yaw": 90,  "pitch": 110},
+    "excited":   {"yaw": 95,  "pitch": 80},
+    "confused":  {"yaw": 75,  "pitch": 90},
+    "neutral":   {"yaw": 90,  "pitch": 90},
+    "fear":      {"yaw": 85,  "pitch": 100},
+    "love":      {"yaw": 90,  "pitch": 88},
+    "shy":       {"yaw": 80,  "pitch": 95}
+  }
+}

@@ -1,0 +1,63 @@
+#:kivy 2.0
+
+<DeskCatLayout>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 0
+        spacing: 0
+
+        # Full-screen emotion
+        BoxLayout:
+            orientation: 'vertical'
+            canvas.before:
+                Color:
+                    rgba: 0.05, 0.05, 0.08, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            # Emotion animation - large center
+            Image:
+                id: anim_image
+                source: app.anim_frame if app.anim_frame else ''
+                size_hint: 0.9, 1.0
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                allow_stretch: True
+                keep_ratio: True
+                fit_mode: 'contain'
+
+        # Bottom status bar
+        GridLayout:
+            size_hint_y: 0.06
+            cols: 2
+            padding: [20, 5]
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0.5
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Label:
+                text: '[' + app.current_emotion + ']'
+                font_size: '13sp'
+                color: 0.7, 0.7, 0.7, 1
+                font_name: 'Roboto'
+                halign: 'left'
+
+            Label:
+                text: app.ble_status
+                font_size: '11sp'
+                color: 0.5, 0.5, 0.5, 1
+                font_name: 'Roboto'
+                halign: 'right'
+
+        # Debug web hint
+        Label:
+            text: app.web_url
+            font_size: '9sp'
+            color: 0.3, 0.3, 0.3, 1
+            font_name: 'Roboto'
+            size_hint_y: 0.02
+            halign: 'center'
+            text_size: self.width - 10, None

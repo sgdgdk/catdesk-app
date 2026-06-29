@@ -1,0 +1,9 @@
+.pio/
+.pioenvs/
+.piolibdeps/
+__pycache__/
+*.o
+*.d
+*.su
+bin/
+obj/

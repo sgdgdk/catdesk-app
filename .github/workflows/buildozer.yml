@@ -1,0 +1,56 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:  # 手动触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            git zip unzip autoconf libtool pkg-config zlib1g-dev \
+            libncurses5-dev libncursesw5-dev libffi-dev libssl-dev \
+            libltdl-dev libsqlite3-dev libbz2-dev libgdbm-dev \
+            libreadline-dev uuid-dev lzma-dev tk-dev \
+            python3-pip python3-venv python3-dev \
+            cmake ninja-build ccache \
+            openjdk-17-jdk-headless \
+            libgomp1
+          
+      - name: Cache buildozer
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.buildozer
+            ~/.gradle
+          key: ${{ runner.os }}-buildozer-${{ hashFiles('buildozer.spec') }}
+          restore-keys: |
+            ${{ runner.os }}-buildozer-
+
+      - name: Build APK with buildozer
+        run: |
+          cd ${{ github.workspace }}
+          pip3 install --user buildozer cython
+          python3 -m buildozer android debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: DeskCat-APK
+          path: |
+            ${{ github.workspace }}/bin/*.apk
+            ${{ github.workspace }}/bin/*.aab
