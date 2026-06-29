@@ -26,21 +26,13 @@ jobs:
       - name: Build APK
         run: |
           export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-          export PATH=$HOME/venv/bin:$PATH
           cd ${{ github.workspace }}
-          ~/venv/bin/python -m buildozer --version
-          ~/venv/bin/python -m buildozer android debug 2>&1
+          $HOME/venv/bin/python -c "import buildozer; print('buildozer OK:', buildozer.__version__)"
+          yes | $HOME/venv/bin/python -m buildozer android debug 2>&1
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: DeskCat-APK
-          path: ${{ github.workspace }}/bin/*.apk
-          if-no-files-found: error
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: DeskCat-APK
-          path: ${{ github.workspace }}/bin/*.apk
-          if-no-files-found: warn
+          path: |
+            ${{ github.workspace }}/bin/*.apk
