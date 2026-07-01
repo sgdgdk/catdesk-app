@@ -11,7 +11,8 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update -qq
-          sudo apt install -y -qq openjdk-17-jdk-headless python3-pip
+          sudo apt install -y -qq openjdk-17-jdk-headless python3-pip python3-dev \
+            git zip unzip pkg-config zlib1g-dev libssl-dev libffi-dev 2>&1 | tail -5
           sudo pip3 install buildozer cython --break-system-packages
 
       - name: Build APK
