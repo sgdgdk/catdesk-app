@@ -8,16 +8,33 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install system deps
+        run: |
+          sudo apt update -qq
+          sudo apt install -y -qq \
+            openjdk-17-jdk-headless \
+            git zip unzip pkg-config zlib1g-dev libssl-dev \
+            libncurses5-dev libffi-dev libsqlite3-dev \
+            cmake ninja-build ccache 2>&1 | tail -3
+
+      - name: Install buildozer
+        run: |
+          pip install --upgrade pip
+          pip install buildozer cython
+
       - name: Build APK
         run: |
-          docker pull kivy/buildozer:latest
-          docker run --rm -v $(pwd):/work -w /work \
-            kivy/buildozer:latest \
-            bash -c "yes | buildozer -v android debug 2>&1"
-          ls -la bin/
+          cd ${{ github.workspace }}
+          JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 \
+          python -m buildozer --version
+          python -m buildozer android debug 2>&1
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: DeskCat-APK
-          path: "bin/*.apk"
+          path: bin/*.apk
