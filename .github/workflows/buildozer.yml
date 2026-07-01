@@ -8,11 +8,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build APK with Docker
+      - name: Install system packages
         run: |
-          docker run --rm -v $(pwd):/work -w /work \
-            kivy/buildozer:latest \
-            bash -c "yes | buildozer android debug 2>&1" | tail -50
+          sudo apt update -qq
+          sudo apt install -y -qq openjdk-17-jdk-headless python3-pip python3-dev \
+            git zip unzip 2>&1 | tail -3
+
+      - name: Install buildozer globally
+        run: |
+          sudo pip3 install --break-system-packages buildozer cython 2>&1 | tail -5
+
+      - name: Build APK
+        run: |
+          cd ${{ github.workspace }}
+          export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+          which buildozer && buildozer --version
+          yes | buildozer android debug 2>&1
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
