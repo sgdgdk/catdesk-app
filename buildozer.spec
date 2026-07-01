@@ -12,8 +12,6 @@ source.dir = .
 source.include_exts = py,png,jpg,jpeg,kv,json,ttf,txt
 
 version = 1.0.0
-version.regex = .*
-version.filename = %(source.dir)s/buildozer.spec
 
 orientation = portrait
 

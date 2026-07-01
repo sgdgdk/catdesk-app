@@ -8,24 +8,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build with Docker
+      - name: Install buildozer
         run: |
-          for i in 1 2 3; do
-            docker pull kivy/buildozer:latest && break
-            echo "Docker pull failed, retry $i..."
-            sleep 10
-          done
-          docker run --rm -v $(pwd):/work -w /work \
-            kivy/buildozer:latest \
-            bash -c "yes | buildozer -v android debug 2>&1"
+          sudo apt update -qq
+          sudo apt install -y -qq python3-pip python3-dev openjdk-17-jdk-headless \
+            git zip unzip pkg-config zlib1g-dev libssl-dev libffi-dev \
+            libncurses5-dev libsqlite3-dev cmake ccache
+          sudo pip3 install buildozer cython --break-system-packages -q
+          echo "=== check ==="
+          python3 -c "import buildozer; print('buildozer', buildozer.__version__)" 2>&1
 
-      - name: Upload APK
+      - name: Build APK
         run: |
-          mkdir -p upload
-          find $(pwd) -name "*.apk" -type f -exec cp {} upload/ \;
-          ls -la upload/
+          export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+          cd ${{ github.workspace }}
+          python3 -c "import buildozer; print('ready')" 2>&1
+          yes | python3 -m buildozer android debug 2>&1
+          ls -la bin/ 2>/dev/null || echo "no bin dir"
+          find . -name "*.apk" -type f 2>/dev/null
 
       - uses: actions/upload-artifact@v4
         with:
           name: DeskCat-APK
-          path: upload/*.apk
+          path: "**/*.apk"
