@@ -12,8 +12,8 @@ source.dir = .
 source.include_exts = py,png,jpg,jpeg,kv,json,ttf,txt
 
 version = 1.0.0
-version.regex = __version__ = ['"](.*)['"]
-version.filename = %(source.dir)s/main.py
+version.regex = .*
+version.filename = %(source.dir)s/buildozer.spec
 
 orientation = portrait
 
@@ -38,10 +38,7 @@ android.permissions = \
 # ============================================================
 # Android 功能特性声明 (告知系统需要 BLE 硬件)
 # ============================================================
-android.features = \
-    android.hardware.bluetooth, \
-    android.hardware.bluetooth_le, \
-    android.hardware.microphone
+android.features =
 
 android.api = 33
 android.minapi = 26
@@ -63,13 +60,8 @@ requirements = \
     kivy, \
     Pillow, \
     requests, \
-    certifi, \
-    urllib3, \
-    idna, \
-    charset_normalizer, \
     pyjnius, \
-    plyer, \
-    openssl
+    plyer
 
 # ============================================================
 # 图标 & 启动画面
