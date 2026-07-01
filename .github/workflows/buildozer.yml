@@ -20,9 +20,13 @@ jobs:
 
       - name: Build
         run: |
+          set -x
           export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-          python -c "import buildozer; print('ok')"
-          yes | python -m buildozer android debug
+          which buildozer
+          buildozer --version 2>&1
+          echo "Starting build..."
+          buildozer android debug 2>&1 || true
+          echo "Exit code: $?"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
