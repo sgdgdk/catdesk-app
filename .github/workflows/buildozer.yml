@@ -15,18 +15,21 @@ jobs:
       - name: Install deps
         run: |
           sudo apt update -qq
-          sudo apt install -y -qq openjdk-17-jdk-headless git zip unzip
-          pip install buildozer cython
+          sudo apt install -y -qq openjdk-17-jdk-headless
+          pip install buildozer cython 2>&1
 
       - name: Build
         run: |
-          set -x
           export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-          which buildozer
-          buildozer --version 2>&1
-          echo "Starting build..."
-          buildozer android debug 2>&1 || true
-          echo "Exit code: $?"
+          buildozer --version 2>&1 | tee build.log
+          echo y | buildozer android debug 2>&1 | tee -a build.log
+
+      - name: Upload log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build.log
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
